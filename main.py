@@ -10,7 +10,8 @@ import asyncio
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
-from database.db_manager import init_db 
+from db_manager import init_db
+
 
 # Import all the persistent button views here
 from cogs.factions import FactionButtons
