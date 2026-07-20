@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-from database.db_manager import create_profile, update_profile
+from db_manager import create_profile, update_profile
+
 
 class FactionButtons(discord.ui.View):
     def __init__(self):
