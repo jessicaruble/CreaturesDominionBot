@@ -78,6 +78,23 @@ class CreaturesDominionBot(commands.Bot):
             return
         print(f"RAW TEXT SEEN: {message.author.name} sent '{message.content}'")
         await self.process_commands(message)
+    # Add this custom help command under your bot class event handlers
+    @commands.command(name="help")
+    async def custom_help(self, ctx):
+        """Displays a clean list of all available bot commands."""
+        embed = discord.Embed(
+            title="⚔️ Creatures of Dominion - Help Menu ⚔️",
+            description="Welcome! Here is a list of all available command modules for the bot. Use `!help <module>` for specific info.",
+            color=discord.Color.gold()
+        )
+        
+        # List all the active cog systems you have installed
+        embed.add_field(name="🏰 Core Systems", value="`!factions` | `!territory` | `!quests` | `!leveling` | `!economy`", inline=False)
+        embed.add_field(name="🎲 Fun & Games", value="`!fun` | `!giveaways` | `!creatures` | `!dragons`", inline=False)
+        embed.add_field(name="🛠️ Server Tools", value="`!moderation` | `!tickets` | `!verification` | `!suggestions`", inline=False)
+        
+        embed.set_footer(text="Creatures of Dominion Bot • Use prefix '!'")
+        await ctx.send(embed=embed)
 
 async def main():
     bot = CreaturesDominionBot()
