@@ -4,6 +4,7 @@ import asyncio
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from keep_alive import keep_alive
 
 # 1. Automatically detect paths between Android and Render Cloud
 if os.path.exists('/storage/emulated/0/Download/CreaturesDominionBot'):
@@ -147,6 +148,13 @@ class CreaturesDominionBot(commands.Bot):
         
         embed.set_footer(text="Creatures of Dominion Bot • Core Systems Fully Operational")
         await ctx.send(embed=embed)
+async def main():
+    # Start the background web server for Render
+    keep_alive() 
+
+    bot = CreaturesDominionBot()
+    async with bot:
+        await bot.start(TOKEN)
 
 async def main():
     bot = CreaturesDominionBot()
