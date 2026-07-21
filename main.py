@@ -95,6 +95,58 @@ class CreaturesDominionBot(commands.Bot):
         
         embed.set_footer(text="Creatures of Dominion Bot • Use prefix '!'")
         await ctx.send(embed=embed)
+    @commands.command(name="help")
+    async def custom_help(self, ctx):
+        """Displays a clean list of all available bot commands."""
+        embed = discord.Embed(
+            title="⚔️ Creatures of Dominion - Help Menu ⚔️",
+            description="Use the prefix `!` before any command. Here is a full list of everything I can do:",
+            color=discord.Color.gold()
+        )
+        
+        # 1. Info & General
+        embed.add_field(
+            name="ℹ️ General & Info", 
+            value="`!help` | `!ping` | `!about` | `!rules` | `!website` | `!server` | `!userinfo` | `!avatar`", 
+            inline=False
+        )
+        
+        # 2. Factions & Lore
+        embed.add_field(
+            name="🏰 Factions, Lore & Map", 
+            value="`!join` | `!leave` | `!role` | `!factions` | `!humans` | `!dragons` | `!creatures` | `!lore` | `!roadmap` | `!territories` | `!map`", 
+            inline=False
+        )
+        
+        # 3. Gameplay & Economy
+        embed.add_field(
+            name="💰 Economy & RPG Features", 
+            value="`!profile` | `!rank` | `!xp` | `!daily` | `!balance` | `!work` | `!hunt` | `!shop` | `!buy` | `!sell` | `!quests` | `!bonding`", 
+            inline=False
+        )
+        
+        # 4. Community & Utility
+        embed.add_field(
+            name="🎉 Community & Engagement", 
+            value="`!suggest` | `!bug` | `!poll` | `!ticket` | `!close` | `!event` | `!giveaway` | `!verify` | `!updates`", 
+            inline=False
+        )
+        
+        # 5. Staff & Admin (Only shows if user has permissions to keep player chat clean)
+        if ctx.author.guild_permissions.manage_messages or ctx.author.guild_permissions.administrator:
+            embed.add_field(
+                name="🛠️ Staff & Moderation", 
+                value="`!warn` | `!warnings` | `!clearwarnings` | `!kick` | `!ban` | `!unban` | `!mute` | `!unmute` | `!timeout` | `!purge` | `!lock` | `!unlock`", 
+                inline=False
+            )
+            embed.add_field(
+                name="⚙️ Bot Administration", 
+                value="`!setup` | `!setup_factions` | `!config` | `!announce` | `!embed` | `!reload` | `!shutdown`", 
+                inline=False
+            )
+        
+        embed.set_footer(text="Creatures of Dominion Bot • Core Systems Fully Operational")
+        await ctx.send(embed=embed)
 
 async def main():
     bot = CreaturesDominionBot()
