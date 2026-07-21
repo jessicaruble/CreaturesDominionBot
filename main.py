@@ -156,11 +156,6 @@ async def main():
     async with bot:
         await bot.start(TOKEN)
 
-async def main():
-    bot = CreaturesDominionBot()
-    async with bot:
-        await bot.start(TOKEN)
-
 if __name__ == '__main__':
     # Safely switch directory only if running on Android device
     if PROJECT_DIR != os.getcwd():
