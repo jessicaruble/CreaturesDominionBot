@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import sqlite3
 import random
-from database.db_manager import DB_PATH, create_profile
+from  db_manager import DB_PATH, create_profile
 
 # Define the level rank role unlocks and their custom colors
 LEVEL_ROLES = {
