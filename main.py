@@ -71,9 +71,20 @@ class CreaturesDominionBot(commands.Bot):
                         print(f'❌ CRITICAL FAILURE loading {cog_name}: {e}')
                         raise e
 
-    async def on_ready(self):
+        async def on_ready(self):
         init_db()
-        print(f'Bot is online! Logged in as {self.user.name}')
+
+        # Force the bot's visibility straight to Online in Discord
+        await self.change_presence(
+            status=discord.Status.online, 
+            activity=discord.Game(name="!help | Creatures of Dominion")
+        )
+
+        print("=" * 50)
+        print(f'✅ SUCCESS: Bot is fully online and verified!')
+        print(f'Logged in as: {self.user.name} (ID: {self.user.id})')
+        print("=" * 50)
+
 
     async def on_message(self, message):
         if message.author == self.user:
