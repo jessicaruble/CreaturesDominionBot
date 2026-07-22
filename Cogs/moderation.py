@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 import sqlite3
-from db_manager import ...
+from db_manager import create_profile
+
 
 
 class Moderation(commands.Cog):
