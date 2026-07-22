@@ -3,7 +3,7 @@ from discord.ext import commands
 import random
 import sqlite3
 import asyncio
-from database.db_manager import DB_PATH, create_profile
+from db_manager import DB_PATH, create_profile
 
 # Main Expedition Mission Matrix
 QUEST_MISSIONS = {
