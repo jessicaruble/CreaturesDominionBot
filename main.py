@@ -58,19 +58,18 @@ class CreaturesDominionBot(commands.Bot):
         self.add_view(CloseTicketView())
         self.add_view(GiveawayJoinView())
 
-        # Load all extension scripts from the folder dynamically
+            # Load all extension scripts from the folder dynamically
         cogs_dir = os.path.join(PROJECT_DIR, COG_FOLDER)
         if os.path.exists(cogs_dir):
             for filename in os.listdir(cogs_dir):
                 if filename.endswith('.py') and not filename.startswith('__'):
                     cog_name = f'{COG_FOLDER}.{filename[:-3]}'
-        try:
-    await self.load_extension(cog_name)
-    print(f'✅ Successfully Loaded: {cog_name}')
-except Exception as e:
-    print(f'❌ CRITICAL FAILURE loading {cog_name}: {e}')
-    raise e
-
+                    try:
+                        await self.load_extension(cog_name)
+                        print(f'✅ Successfully Loaded: {cog_name}')
+                    except Exception as e:
+                        print(f'❌ CRITICAL FAILURE loading {cog_name}: {e}')
+                        raise e
 
     async def on_ready(self):
         init_db()
