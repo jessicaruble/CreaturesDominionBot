@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 import sqlite3
-from database.db_manager import DB_PATH, create_profile, add_item_to_inventory, get_user_inventory
+from db_manager import DB_PATH, create_profile, add_item_to_inventory
+
 
 SHOP_INVENTORY = {
     "sword": {"name": "⚔️ Hunter's Steel Sword", "price": 200, "desc": "Increases quest success rates slightly."},
