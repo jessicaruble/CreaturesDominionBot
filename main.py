@@ -64,11 +64,13 @@ class CreaturesDominionBot(commands.Bot):
             for filename in os.listdir(cogs_dir):
                 if filename.endswith('.py') and not filename.startswith('__'):
                     cog_name = f'{COG_FOLDER}.{filename[:-3]}'
-                    try:
-                        await self.load_extension(cog_name)
-                        print(f'Loaded: {cog_name}')
-                    except Exception as e:
-                        print(f'Failed to load {cog_name}: {e}')
+        try:
+    await self.load_extension(cog_name)
+    print(f'✅ Successfully Loaded: {cog_name}')
+except Exception as e:
+    print(f'❌ CRITICAL FAILURE loading {cog_name}: {e}')
+    raise e
+
 
     async def on_ready(self):
         init_db()
