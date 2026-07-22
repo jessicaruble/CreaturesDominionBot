@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import random
 import sqlite3
-from database.db_manager import DB_PATH, create_profile
+from db_manager import DB_PATH, create_profile
 
 # Core Dragon Genome Data Matrix
 DRAGON_TEMPLATES = {
