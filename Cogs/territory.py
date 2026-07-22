@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import sqlite3
 import random
-from database.db_manager import DB_PATH, get_profile
+from db_manager import DB_PATH, get_profile
 
 class Territory(commands.Cog):
     def __init__(self, bot):
