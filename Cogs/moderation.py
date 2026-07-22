@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 import sqlite3
-from database.db_manager import DB_PATH
+from db_manager import ...
+
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
