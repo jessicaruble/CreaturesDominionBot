@@ -24,65 +24,6 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    # --- UPDATED COMMAND: !help ---
-    @commands.command(name="help", aliases=["commands", "menu"])
-    async def help_menu(self, ctx):
-        """Displays a clean navigation directory of all active bot features"""
-        embed = discord.Embed(
-            title="⚔️ Creatures Dominion Command Directory ⚔️",
-            description="Welcome ranger! Here is the complete list of system inputs available to guide your journey.",
-            color=0x34495e
-        )
-        if ctx.guild.icon:
-            embed.set_thumbnail(url=ctx.guild.icon.url)
-
-        embed.add_field(
-            name="🎮 Core RPG Actions", 
-            value="`!profile` - View stats, level progress, and active equipment.\n"
-                  "`!spawn` - Summon a random wild beast or dragon encounter.\n"
-                  "`!bond` - Attempt a soul alignment match with active spawns.\n"
-                  "`!dragon_index` - View the entire dragon genetic evolution pool.\n"
-                  "`!breed [p1] [p2]` - Fuse two dragons together to roll for a rare hybrid.",
-            inline=False
-        )
-        embed.add_field(
-            name="💰 Economy & Marketplace", 
-            value="`!balance` - View your total gold coins held in vaults.\n"
-                  "`!daily` - Claim your 24-hour gold allowance allowance.\n"
-                  "`!shop` - Open the trading post catalog to purchase weapons.\n"
-                  "`!buy [item]` - Order an item and equip it directly to your bag.\n"
-                  "`!inventory` - Peek inside your adventure knapsack pack.", 
-            inline=False
-        )
-        embed.add_field(
-            name="📈 Rankings & Factions", 
-            value="`!leaderboard` - View the top 10 highest-level active players.\n"
-                  "`!richest` - View the wealthiest coin tycoons across the sectors.\n"
-                  "`!map` - Inspect global territory holdings and faction lines.\n"
-                  "`!attack [zone]` - Launch a siege strike for your faction.", 
-            inline=False
-        )
-        embed.add_field(
-            name="💡 Community Support & Mini-Games", 
-            value="`!suggest [text]` - Submit an idea with an automated voting poll.\n"
-                  "`!bug [text]` - File an error trace log directly to staff rooms.\n"
-                  "`!trivia` - Launch a fast chat quiz challenge to earn 100 gold.\n"
-                  "`!coinflip [side] [bet]` - Gamble your coins on a coin flip.", 
-            inline=False
-        )
-        embed.add_field(
-            name="🛡️ Staff Controls & Broadcasts", 
-            value="`!setup_verify` / `!setup_factions` / `!setup_tickets` - Spawn interactive buttons.\n"
-                  "`!setup_roles` - Automatically synthesize missing server roles.\n"
-                  "`!announce [hex] [Title] | [Message]` - Cast clean embeds.\n"
-                  "`!prof_announce [Title] | [Topic] | [Body]` - Broadcast executive-style posts.\n"
-                  "`!warn / !warnings / !purge / !kick / !ban` - Moderation tools.", 
-            inline=False
-        )
-        
-        embed.set_footer(text=f"Requested by {ctx.author.name} • Prefix: !")
-        await ctx.send(embed=embed)
-
     @commands.command(name="trivia", aliases=["quiz", "game"])
     @commands.cooldown(1, 20, commands.BucketType.guild)
     async def trivia(self, ctx):
