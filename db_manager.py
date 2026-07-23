@@ -20,6 +20,42 @@ def init_db():
         )
     ''')
 
+def add_dragon(user_id, dragon_name, element, tier):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        '''
+        INSERT INTO dragons
+        (user_id, dragon_name, element, tier)
+        VALUES (?, ?, ?, ?)
+        ''',
+        (user_id, dragon_name, element, tier)
+    )
+
+    conn.commit()
+    conn.close()
+
+
+def get_dragons(user_id):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        '''
+        SELECT dragon_name, element, tier, level, bond
+        FROM dragons
+        WHERE user_id = ?
+        ''',
+        (user_id,)
+    )
+
+    dragons = cursor.fetchall()
+
+    conn.close()
+
+    return dragons
+    
     # 2. Moderation Table (Infractions)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS infractions (
