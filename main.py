@@ -65,6 +65,9 @@ async def setup_hook():
     # Load all extension scripts from the folder dynamically
     cogs_dir = os.path.join(PROJECT_DIR, COG_FOLDER)
     if os.path.exists(cogs_dir):
+        print("PROJECT DIR:", PROJECT_DIR)
+print("COG FOLDER:", COG_FOLDER)
+print("COG FILES:", os.listdir(os.path.join(PROJECT_DIR, COG_FOLDER)))
         for filename in os.listdir(cogs_dir):
             if filename.endswith('.py') and not filename.startswith('__'):
                 cog_name = f'{COG_FOLDER}.{filename[:-3]}'
