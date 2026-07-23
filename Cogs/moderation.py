@@ -1,143 +1,144 @@
 import discord
 from discord.ext import commands
-import sqlite3
-from db_manager import create_profile
-
 
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.warnings = {}
 
-    # Helper function to save an infraction to the SQLite database
-    def log_infraction(self, user_id, guild_id, moderator_id, inf_type, reason):
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO infractions (user_id, guild_id, moderator_id, type, reason)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (user_id, guild_id, moderator_id, inf_type, reason))
-        conn.commit()
-        conn.close()
 
-    # Prefix Command: !warn
-    @commands.command(name="warn")
+    def is_staff():
+        async def predicate(ctx):
+            return ctx.author.guild_permissions.manage_messages
+        return commands.check(predicate)
+
+
+    @commands.command()
     @commands.has_permissions(manage_messages=True)
-    async def warn(self, ctx, member: discord.Member, *, reason: str = "No reason provided"):
-        """Issues a formal warning and saves it to the database"""
-        if member.top_role >= ctx.author.top_role and ctx.author != ctx.guild.owner:
-            await ctx.send("❌ You cannot warn a member with a higher or equal role than yourself.")
-            return
+    async def warn(self, ctx, member: discord.Member, *, reason="No reason provided"):
+        """Warn a member"""
 
-        # Save infraction to the DB
-        self.log_infraction(member.id, ctx.guild.id, ctx.author.id, "warn", reason)
+        if member.id not in self.warnings:
+            self.warnings[member.id] = []
 
-        # Notify the server
+        self.warnings[member.id].append(reason)
+
         embed = discord.Embed(
             title="⚠️ Member Warned",
-            description=f"**User:** {member.mention}\n**Moderator:** {ctx.author.mention}\n**Reason:** {reason}",
-            color=0xf1c40f
+            color=discord.Color.orange()
         )
+
+        embed.add_field(
+            name="Member",
+            value=member.mention
+        )
+
+        embed.add_field(
+            name="Reason",
+            value=reason
+        )
+
+        embed.add_field(
+            name="Moderator",
+            value=ctx.author.mention
+        )
+
         await ctx.send(embed=embed)
 
-        # Attempt to DM the warned user privately
-        try:
-            await member.send(f"⚠️ You have been warned in **{ctx.guild.name}** for: {reason}")
-        except discord.Forbidden:
-            pass # Skips if the user has private messages turned off
 
-    # Prefix Command: !warnings
-    @commands.command(name="warnings", aliases=["infractions", "history"])
+    @commands.command()
     @commands.has_permissions(manage_messages=True)
     async def warnings(self, ctx, member: discord.Member):
-        """Looks up a specific member's total warning history"""
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute('''
-            SELECT moderator_id, type, reason, timestamp 
-            FROM infractions 
-            WHERE user_id = ? AND guild_id = ?
-            ORDER BY timestamp DESC
-        ''', (member.id, ctx.guild.id))
-        rows = cursor.fetchall()
-        conn.close()
+        """View warnings"""
 
-        if not rows:
-            await ctx.send(f"✅ {member.mention} has a clean record! No infractions found.")
+        warns = self.warnings.get(member.id, [])
+
+        if not warns:
+            await ctx.send(
+                f"✅ {member.mention} has no warnings."
+            )
             return
 
-        embed = discord.Embed(
-            title=f"📋 Infraction History for {member.display_name}",
-            color=0x34495e
-        )
-        embed.set_thumbnail(url=member.display_avatar.url)
 
-        # Loop through database entries and add them to the message embed
-        for i, row in enumerate(rows, start=1):
-            mod_id, inf_type, reason, timestamp = row
-            mod = ctx.guild.get_member(mod_id)
-            mod_name = mod.mention if mod else f"ID: {mod_id}"
-            
+        embed = discord.Embed(
+            title=f"⚠️ Warnings for {member.name}",
+            color=discord.Color.red()
+        )
+
+        for number, warning in enumerate(warns, start=1):
             embed.add_field(
-                name=f"#{i} | {inf_type.upper()}",
-                value=f"**Mod:** {mod_name}\n**Reason:** {reason}\n*Date:* {timestamp}",
+                name=f"Warning {number}",
+                value=warning,
                 inline=False
             )
 
         await ctx.send(embed=embed)
 
-    # Prefix Command: !purge
-    @commands.command(name="purge", aliases=["clear", "clean"])
+
+    @commands.command()
     @commands.has_permissions(manage_messages=True)
-    async def purge(self, ctx, amount: int):
-        """Quickly deletes a specific number of recent messages"""
-        if amount <= 0:
-            await ctx.send("❌ Please specify a number greater than 0.")
-            return
-            
-        # Delete the command message itself + the requested amount
-        deleted = await ctx.channel.purge(limit=amount + 1)
-        
-        # Send a temporary success message that auto-deletes after 3 seconds
-        await ctx.send(f"🧹 Successfully cleared **{len(deleted) - 1}** messages.", delete_after=3)
+    async def clearwarnings(self, ctx, member: discord.Member):
+        """Clear warnings"""
 
-    # Prefix Command: !kick
-    @commands.command(name="kick")
+        self.warnings.pop(member.id, None)
+
+        await ctx.send(
+            f"✅ Cleared warnings for {member.mention}"
+        )
+
+
+    @commands.command()
     @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, member: discord.Member, *, reason: str = "No reason provided"):
-        """Removes a user from the server and logs it"""
-        if member.top_role >= ctx.author.top_role and ctx.author != ctx.guild.owner:
-            await ctx.send("❌ You cannot kick this member due to role hierarchy.")
-            return
+    async def kick(self, ctx, member: discord.Member, *, reason="No reason provided"):
+        """Kick a member"""
 
-        self.log_infraction(member.id, ctx.guild.id, ctx.author.id, "kick", reason)
         await member.kick(reason=reason)
 
-        embed = discord.Embed(
-            title="👢 Member Kicked",
-            description=f"**User:** {member.name}\n**Moderator:** {ctx.author.mention}\n**Reason:** {reason}",
-            color=0xe67e22
+        await ctx.send(
+            f"👢 {member.mention} was kicked.\nReason: {reason}"
         )
-        await ctx.send(embed=embed)
 
-    # Prefix Command: !ban
-    @commands.command(name="ban")
+
+    @commands.command()
     @commands.has_permissions(ban_members=True)
-    async def ban(self, ctx, member: discord.Member, *, reason: str = "No reason provided"):
-        """Permanently bans a user from the server and logs it"""
-        if member.top_role >= ctx.author.top_role and ctx.author != ctx.guild.owner:
-            await ctx.send("❌ You cannot ban this member due to role hierarchy.")
-            return
+    async def ban(self, ctx, member: discord.Member, *, reason="No reason provided"):
+        """Ban a member"""
 
-        self.log_infraction(member.id, ctx.guild.id, ctx.author.id, "ban", reason)
         await member.ban(reason=reason)
 
-        embed = discord.Embed(
-            title="🔨 Member Banned",
-            description=f"**User:** {member.name}\n**Moderator:** {ctx.author.mention}\n**Reason:** {reason}",
-            color=0xe74c3c
+        await ctx.send(
+            f"🔨 {member.mention} was banned.\nReason: {reason}"
         )
-        await ctx.send(embed=embed)
+
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def unban(self, ctx, user_id: int):
+        """Unban a user by ID"""
+
+        user = await self.bot.fetch_user(user_id)
+
+        await ctx.guild.unban(user)
+
+        await ctx.send(
+            f"✅ {user} has been unbanned."
+        )
+
+
+    @commands.command()
+    @commands.has_permissions(manage_channels=True)
+    async def slowmode(self, ctx, seconds: int):
+        """Set channel slowmode"""
+
+        await ctx.channel.edit(
+            slowmode_delay=seconds
+        )
+
+        await ctx.send(
+            f"🐢 Slowmode set to {seconds} seconds."
+        )
+
 
 async def setup(bot):
     await bot.add_cog(Moderation(bot))
