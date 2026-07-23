@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import sqlite3
-from db_manager import DB_PATH, create_profile, add_item_to_inventory
+from db_manager import DB_PATH, create_profile, add_item_to_inventory, get_user_inventory
 
 
 SHOP_INVENTORY = {
