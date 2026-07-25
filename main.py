@@ -168,8 +168,6 @@ async def custom_help(ctx):
 async def main():
     keep_alive()  # Start the background web server for Render
     async with bot:
-print("TOKEN FOUND:", TOKEN is not None)
-print("TOKEN LENGTH:", len(TOKEN) if TOKEN else 0)
         await bot.start(TOKEN)
 
 if __name__ == '__main__':
