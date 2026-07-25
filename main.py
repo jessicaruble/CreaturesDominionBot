@@ -169,8 +169,8 @@ async def custom_help(ctx):
 # ====================================================================
 
 async def main():
-    keep_alive()  # Start the background web server for Render
-        await bot.start(TOKEN)
+    keep_alive()
+    await bot.start(TOKEN)
 
 if __name__ == '__main__':
     if PROJECT_DIR != os.getcwd():
