@@ -168,11 +168,25 @@ async def custom_help(ctx):
 # CORE RUNTIME ENGINE RUNTIME SWITCH
 # ====================================================================
 
+# Your bot setup (already in your file)
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+# Put this HERE
+@bot.event
+async def on_ready():
+    print(f"Logged in as: {bot.user}")
+    print("🚀 DISCORD CONNECTION SUCCESSFUL!")
+
+# Your main function stays at the bottom
 async def main():
     keep_alive()
+
+    print("🚀 SYSTEM LIVE: Bot is completely online!")
+
     await bot.start(TOKEN)
 
 if __name__ == '__main__':
     if PROJECT_DIR != os.getcwd():
         os.chdir(PROJECT_DIR)
+
     asyncio.run(main())
