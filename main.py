@@ -170,7 +170,6 @@ async def custom_help(ctx):
 
 async def main():
     keep_alive()  # Start the background web server for Render
-    async with bot:
         await bot.start(TOKEN)
 
 if __name__ == '__main__':
