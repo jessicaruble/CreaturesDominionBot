@@ -6,6 +6,12 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from keep_alive import keep_alive
 
+load_dotenv()
+
+TOKEN = os.getenv("discord_token")
+
+print("TOKEN FOUND:", TOKEN is not None)
+
 # 1. Automatically detect paths between Android and Render Cloud
 if os.path.exists('/storage/emulated/0/Download/CreaturesDominionBot'):
     PROJECT_DIR = '/storage/emulated/0/Download/CreaturesDominionBot'
