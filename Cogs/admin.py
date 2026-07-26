@@ -233,17 +233,21 @@ class Admin(commands.Cog):
                 "📢 **Official Announcements**\nAll major updates will appear here."
             )
 
-        await ctx.send("✅ Creatures of Dominion setup complete!")
-    
+                await ctx.send("✅ Creatures of Dominion setup complete!")
+
+    # ==============================
+    # ERROR HANDLER
+    # ==============================
+
     @announce.error
-@prof_announce.error
-@setup_server.error
-async def admin_errors(self, ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send(
-            "❌ Access Denied! This command requires Administrator permission.",
-            delete_after=5
-        )
+    @prof_announce.error
+    @setup_server.error
+    async def admin_errors(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send(
+                "❌ Access Denied! This command requires Administrator permission.",
+                delete_after=5
+            )
 
 async def setup(bot):
     await bot.add_cog(Admin(bot))
