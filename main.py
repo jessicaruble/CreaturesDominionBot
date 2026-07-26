@@ -57,7 +57,6 @@ intents.members = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command('help')
-bot.setup_hook = setup_hook
 
 @bot.event
 async def setup_hook():
@@ -86,6 +85,7 @@ async def setup_hook():
                 except Exception as e:
                     print(f'❌ CRITICAL FAILURE loading {cog_name}: {e}')
                     raise e
+                    bot.setup_hook = setup_hook
 
 @bot.event
 async def on_ready():
