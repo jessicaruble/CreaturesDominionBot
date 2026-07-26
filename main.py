@@ -65,7 +65,7 @@ bot.remove_command('help')
 
 async def setup_hook():
     """Triggered automatically right before the bot logs into Discord."""
-    print("🔥 SETUP HOOK STARTED")
+    print("🔥 setup_hook() started")
 
     # Register persistent views
     bot.add_view(FactionButtons())
@@ -193,16 +193,16 @@ async def main():
     print("CONNECTING TO DISCORD NOW...")
 
     try:
-    print("➡️ Calling bot.start()...")
-    await bot.start(TOKEN)
-    print("✅ bot.start() returned")
-except Exception as e:
-    print("❌ DISCORD CONNECTION ERROR:")
-    print(repr(e))
+        print("➡️ Calling bot.start()...")
+        await bot.start(TOKEN)
+        print("✅ bot.start() returned")
+    except Exception as e:
+        print("❌ DISCORD CONNECTION ERROR:")
+        print(repr(e))
 
 if __name__ == '__main__':
     if PROJECT_DIR != os.getcwd():
         os.chdir(PROJECT_DIR)
 
-    async def setup_hook():
-    print("🔥 setup_hook() started")
+    bot.setup_hook = setup_hook
+    asyncio.run(main())
