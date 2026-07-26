@@ -31,8 +31,7 @@ COG_FOLDER = 'Cogs' if os.path.exists(os.path.join(PROJECT_DIR, 'Cogs')) else 'c
 factions = __import__(f"{COG_FOLDER}.factions", fromlist=["FactionButtons"])
 FactionButtons = factions.FactionButtons
 
-verification = __import__(f"{COG_FOLDER}.verification", fromlist=["VerifyButton"])
-VerifyButton = verification.VerifyButton
+verification = __import__(f"{COG_FOLDER}.verification", fromlist=["Verification"])
 
 tickets = __import__(f"{COG_FOLDER}.tickets", fromlist=["TicketLandingView", "CloseTicketView"])
 TicketLandingView = tickets.TicketLandingView
