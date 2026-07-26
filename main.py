@@ -186,4 +186,5 @@ if __name__ == '__main__':
     if PROJECT_DIR != os.getcwd():
         os.chdir(PROJECT_DIR)
 
+    bot.setup_hook = setup_hook
     asyncio.run(main())
