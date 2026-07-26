@@ -58,18 +58,19 @@ intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command('help')
 
-print("🔥 SETUP HOOK STARTED")
-@bot.event
+
 async def setup_hook():
     """Triggered automatically right before the bot logs into Discord."""
-    # Register the persistent views
+    print("🔥 SETUP HOOK STARTED")
+
+    # Register persistent views
     bot.add_view(FactionButtons())
     bot.add_view(VerifyButton())
     bot.add_view(TicketLandingView())
     bot.add_view(CloseTicketView())
     bot.add_view(GiveawayJoinView())
 
-    # Load all extension scripts from the folder dynamically
+    # Load all extensions
     cogs_dir = os.path.join(PROJECT_DIR, COG_FOLDER)
 
     if os.path.exists(cogs_dir):
@@ -80,13 +81,18 @@ async def setup_hook():
         for filename in os.listdir(cogs_dir):
             if filename.endswith('.py') and not filename.startswith('__'):
                 cog_name = f'{COG_FOLDER}.{filename[:-3]}'
+
                 try:
                     await bot.load_extension(cog_name)
                     print(f'✅ Successfully Loaded: {cog_name}')
+
                 except Exception as e:
                     print(f'❌ CRITICAL FAILURE loading {cog_name}: {e}')
-                    raise e
-                    bot.setup_hook = setup_hook
+    else:
+        print("❌ COG FOLDER NOT FOUND!")
+
+
+bot.setup_hook = setup_hook
 
 @bot.event
 async def on_ready():
