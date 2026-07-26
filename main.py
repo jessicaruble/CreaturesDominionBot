@@ -179,7 +179,8 @@ async def main():
     keep_alive()
 
     print("🚀 SYSTEM LIVE: Bot is completely online!")
-
+print("CONNECTING TO DISCORD NOW...")
+    
     await bot.start(TOKEN)
 
 if __name__ == '__main__':
