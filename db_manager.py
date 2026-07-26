@@ -1,7 +1,8 @@
 import sqlite3
 import os
 
-DB_PATH = '/storage/emulated/0/Download/CreaturesDominionBot/database/bot_data.db'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "bot_data.db")
 
 
 def init_db():
