@@ -6,12 +6,6 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from keep_alive import keep_alive
 
-load_dotenv()
-
-TOKEN = os.getenv("discord_token")
-
-print("TOKEN FOUND:", TOKEN is not None)
-
 # 1. Automatically detect paths between Android and Render Cloud
 if os.path.exists('/storage/emulated/0/Download/CreaturesDominionBot'):
     PROJECT_DIR = '/storage/emulated/0/Download/CreaturesDominionBot'
@@ -46,6 +40,10 @@ GiveawayJoinView = giveaways.GiveawayJoinView
 # 5. Load environment variables securely
 load_dotenv(os.path.join(PROJECT_DIR, '.env'))
 
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+print("TOKEN FOUND:", TOKEN is not None)
+
 if not TOKEN:
     raise ValueError("Discord token not found!")
 
@@ -60,6 +58,7 @@ intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command('help')
 
+@bot.event
 async def setup_hook():
     """Triggered automatically right before the bot logs into Discord."""
     # Register the persistent views
