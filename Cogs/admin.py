@@ -226,14 +226,14 @@ class Admin(commands.Cog):
                 "🐛 **Bug Reports**\nReport any issues you find here."
             )
 
-        # Announcement Panel
+                # Announcement Panel
         channel = discord.utils.get(ctx.guild.text_channels, name=channels["announcement"])
         if channel:
             await channel.send(
                 "📢 **Official Announcements**\nAll major updates will appear here."
             )
 
-                await ctx.send("✅ Creatures of Dominion setup complete!")
+        await ctx.send("✅ Creatures of Dominion setup complete!")
 
     # ==============================
     # ERROR HANDLER
