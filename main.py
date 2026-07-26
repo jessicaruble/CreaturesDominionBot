@@ -193,14 +193,16 @@ async def main():
     print("CONNECTING TO DISCORD NOW...")
 
     try:
-        await bot.start(TOKEN)
-    except Exception as e:
-        print("❌ DISCORD CONNECTION ERROR:")
-        print(e)
+    print("➡️ Calling bot.start()...")
+    await bot.start(TOKEN)
+    print("✅ bot.start() returned")
+except Exception as e:
+    print("❌ DISCORD CONNECTION ERROR:")
+    print(repr(e))
 
 if __name__ == '__main__':
     if PROJECT_DIR != os.getcwd():
         os.chdir(PROJECT_DIR)
 
-    bot.setup_hook = setup_hook
-    asyncio.run(main())
+    async def setup_hook():
+    print("🔥 setup_hook() started")
