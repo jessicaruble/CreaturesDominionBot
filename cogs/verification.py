@@ -1,39 +1,57 @@
 import discord
 from discord.ext import commands
 
-class VerifyButton(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-
-    @discord.ui.button(label="✅ Verify Here", style=discord.ButtonStyle.success, custom_id="verify_member")
-    async def verify(self, interaction: discord.Interaction, button: discord.ui.Button):
-        guild = interaction.guild
-        user = interaction.user
-        
-        # Look for or create a "Verified" role
-        role = discord.utils.get(guild.roles, name="Verified")
-        if not role:
-            role = await guild.create_role(name="Verified", reason="Automated verification setup")
-
-        if role in user.roles:
-            await interaction.response.send_message("❌ You are already verified!", ephemeral=True)
-        else:
-            await user.add_roles(role)
-            await interaction.response.send_message("🎉 Access granted! Welcome to the server.", ephemeral=True)
 
 class Verification(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="setup_verify")
-    @commands.has_permissions(administrator=True)
-    async def setup_verify(self, ctx):
-        embed = discord.Embed(
-            title="🔒 Security Verification",
-            description="Welcome to the server! Click the button below to verify your account and view the channels.",
-            color=discord.Color.green()
+    @discord.app_commands.command(
+        name="verify",
+        description="Verify yourself and get the Verified role"
+    )
+    async def verify(self, interaction: discord.Interaction):
+
+        if interaction.guild is None:
+            await interaction.response.send_message(
+                "❌ This command can only be used in a server.",
+                ephemeral=True
+            )
+            return
+
+        role = discord.utils.get(
+            interaction.guild.roles,
+            name="Verified"
         )
-        await ctx.send(embed=embed, view=VerifyButton())
+
+        if role is None:
+            await interaction.response.send_message(
+                "❌ The Verified role was not found. Create a role named exactly: Verified",
+                ephemeral=True
+            )
+            return
+
+        if role in interaction.user.roles:
+            await interaction.response.send_message(
+                "✅ You are already verified!",
+                ephemeral=True
+            )
+            return
+
+        try:
+            await interaction.user.add_roles(role)
+
+            await interaction.response.send_message(
+                "✅ Verification complete! You now have access.",
+                ephemeral=True
+            )
+
+        except discord.Forbidden:
+            await interaction.response.send_message(
+                "❌ I cannot give you the role. Move my bot role above Verified and enable Manage Roles.",
+                ephemeral=True
+            )
+
 
 async def setup(bot):
     await bot.add_cog(Verification(bot))
