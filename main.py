@@ -100,16 +100,21 @@ bot.setup_hook = setup_hook
 async def on_ready():
     """Triggered automatically when the connection succeeds."""
     init_db()
-    
-    # Broadcast an active visible green status presence immediately
+
+    try:
+        synced = await bot.tree.sync()
+        print(f"✅ Synced {len(synced)} slash commands")
+    except Exception as e:
+        print(f"❌ Slash command sync failed: {e}")
+
     await bot.change_presence(
-        status=discord.Status.online, 
+        status=discord.Status.online,
         activity=discord.Game(name="!help | Creatures of Dominion")
     )
-    
+
     print("=" * 50)
-    print(f'🚀 SYSTEM LIVE: Bot is completely online!')
-    print(f'Logged in as: {bot.user.name} (ID: {bot.user.id})')
+    print("🚀 SYSTEM LIVE: Bot is completely online!")
+    print(f"Logged in as: {bot.user.name} (ID: {bot.user.id})")
     print("=" * 50)
 
 @bot.event
