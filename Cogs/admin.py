@@ -171,7 +171,7 @@ class Admin(commands.Cog):
                 description="Click the verification button to gain access to the kingdom.",
                 color=0x00FF00
             )
-            await channel.send(embed=embed)
+            await channel.send(embed=embed, view=VerifyButton())
 
         # Factions Panel
         channel = discord.utils.get(ctx.guild.text_channels, name=channels["factions"])
@@ -181,10 +181,7 @@ class Admin(commands.Cog):
                 description="Select your faction and begin your journey.",
                 color=0x3498DB
             )
-                await channel.send(
-        embed=embed,
-        view=FactionButtons()
-                )
+                await channel.send(embed=embed, view=FactionButtons())
 
         # Tickets Panel
         channel = discord.utils.get(ctx.guild.text_channels, name=channels["tickets"])
@@ -194,10 +191,7 @@ class Admin(commands.Cog):
                 description="Need help? Open a ticket with our staff team.",
                 color=0x5865F2
             )
-            await channel.send(
-    embed=embed,
-    view=TicketLandingView()
-            )
+            await channel.send(embed=embed, view=TicketLandingView())
 
         # Giveaway Panel
         channel = discord.utils.get(ctx.guild.text_channels, name=channels["giveaways"])
@@ -207,10 +201,7 @@ class Admin(commands.Cog):
                 description="Future events and rewards will be posted here.",
                 color=0xFF69B4
             )
-            await channel.send(
-    embed=embed,
-    view=GiveawayJoinView()
-            )
+            await channel.send(embed=embed, view=GiveawayJoinView())
 
         # Suggestions Panel
         channel = discord.utils.get(ctx.guild.text_channels, name=channels["suggestions"])
