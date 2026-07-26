@@ -144,7 +144,8 @@ class Admin(commands.Cog):
                 ),
                 color=0x8B0000
             )
-            await channel.send(embed=embed)
+            await channel.send(embed=embed,view=VerifyButton()
+           )
 
         # Rules Panel
         channel = discord.utils.get(ctx.guild.text_channels, name=channels["rules"])
