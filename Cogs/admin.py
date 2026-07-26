@@ -104,6 +104,122 @@ class Admin(commands.Cog):
         embed.set_footer(text=f"Requested by {ctx.author.name}")
         await ctx.send(embed=embed)
 
+    # ==============================
+    # SERVER SETUP SYSTEM
+    # ==============================
+
+    @commands.command(name="setup")
+    @commands.has_permissions(administrator=True)
+    async def setup_server(self, ctx):
+        """Creates all official Creatures of Dominion panels."""
+
+        channels = {
+            "rules": "Dominion rules",
+            "announcement": "Announcement",
+            "verification": "Verification",
+            "suggestions": "Suggestions",
+            "bugs": "Bug reports",
+            "tickets": "Tickets",
+            "factions": "Factions",
+            "welcome": "Welcome",
+            "giveaways": "Giveaways"
+        }
+
+        await ctx.send("⚔️ Starting Creatures of Dominion server setup...")
+
+        # Welcome Panel
+        channel = discord.utils.get(ctx.guild.text_channels, name=channels["welcome"])
+        if channel:
+            embed = discord.Embed(
+                title="🐉 Welcome to Creatures of Dominion",
+                description=(
+                    "Welcome to the realm!\n\n"
+                    "Choose your path, join your faction, "
+                    "and prepare for the world of dragons, creatures, and legends."
+                ),
+                color=0x8B0000
+            )
+            await channel.send(embed=embed)
+
+        # Rules Panel
+        channel = discord.utils.get(ctx.guild.text_channels, name=channels["rules"])
+        if channel:
+            embed = discord.Embed(
+                title="📜 Dominion Rules",
+                description=(
+                    "1. Respect all members\n"
+                    "2. No harassment\n"
+                    "3. No spam\n"
+                    "4. Follow Discord Terms of Service\n"
+                    "5. Have fun and enjoy the realm!"
+                ),
+                color=0xFFD700
+            )
+            await channel.send(embed=embed)
+
+        # Verification Panel
+        channel = discord.utils.get(ctx.guild.text_channels, name=channels["verification"])
+        if channel:
+            embed = discord.Embed(
+                title="✅ Verification",
+                description="Click the verification button to gain access to the kingdom.",
+                color=0x00FF00
+            )
+            await channel.send(embed=embed)
+
+        # Factions Panel
+        channel = discord.utils.get(ctx.guild.text_channels, name=channels["factions"])
+        if channel:
+            embed = discord.Embed(
+                title="🏰 Choose Your Faction",
+                description="Select your faction and begin your journey.",
+                color=0x3498DB
+            )
+            await channel.send(embed=embed)
+
+        # Tickets Panel
+        channel = discord.utils.get(ctx.guild.text_channels, name=channels["tickets"])
+        if channel:
+            embed = discord.Embed(
+                title="🎫 Support Tickets",
+                description="Need help? Open a ticket with our staff team.",
+                color=0x5865F2
+            )
+            await channel.send(embed=embed)
+
+        # Giveaway Panel
+        channel = discord.utils.get(ctx.guild.text_channels, name=channels["giveaways"])
+        if channel:
+            embed = discord.Embed(
+                title="🎁 Giveaways",
+                description="Future events and rewards will be posted here.",
+                color=0xFF69B4
+            )
+            await channel.send(embed=embed)
+
+        # Suggestions Panel
+        channel = discord.utils.get(ctx.guild.text_channels, name=channels["suggestions"])
+        if channel:
+            await channel.send(
+                "💡 **Suggestions**\nShare your ideas for Creatures of Dominion here!"
+            )
+
+        # Bug Reports Panel
+        channel = discord.utils.get(ctx.guild.text_channels, name=channels["bugs"])
+        if channel:
+            await channel.send(
+                "🐛 **Bug Reports**\nReport any issues you find here."
+            )
+
+        # Announcement Panel
+        channel = discord.utils.get(ctx.guild.text_channels, name=channels["announcement"])
+        if channel:
+            await channel.send(
+                "📢 **Official Announcements**\nAll major updates will appear here."
+            )
+
+        await ctx.send("✅ Creatures of Dominion setup complete!")
+    
     @announce.error
     @prof_announce.error
     async def admin_errors(self, ctx, error):
