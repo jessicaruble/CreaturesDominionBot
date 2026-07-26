@@ -9,12 +9,18 @@ from keep_alive import keep_alive
 # 1. Automatically detect paths between Android and Render Cloud
 if os.path.exists('/storage/emulated/0/Download/CreaturesDominionBot'):
     PROJECT_DIR = '/storage/emulated/0/Download/CreaturesDominionBot'
+
 elif os.path.exists('/storage/emulated/0/CreaturesDominionBot'):
     PROJECT_DIR = '/storage/emulated/0/CreaturesDominionBot'
+
 else:
-    PROJECT_DIR = os.getcwd()
+    # Render / GitHub deployment
+    PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 if PROJECT_DIR not in sys.path:
+    sys.path.insert(0, PROJECT_DIR)
+
+print("PROJECT DIR:", PROJECT_DIR)
     sys.path.insert(0, PROJECT_DIR)
 
 # 2. Safe Database Import
