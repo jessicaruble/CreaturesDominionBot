@@ -57,6 +57,7 @@ intents.members = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command('help')
+bot.setup_hook = setup_hook
 
 @bot.event
 async def setup_hook():
