@@ -173,13 +173,6 @@ async def custom_help(ctx):
 # ====================================================================
 
 # Your bot setup (already in your file)
-bot = commands.Bot(command_prefix="!", intents=intents)
-
-# Put this HERE
-@bot.event
-async def on_ready():
-    print(f"Logged in as: {bot.user}")
-    print("🚀 DISCORD CONNECTION SUCCESSFUL!")
 
 # Your main function stays at the bottom
 async def main():
