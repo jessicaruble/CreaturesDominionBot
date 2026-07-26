@@ -68,7 +68,6 @@ async def setup_hook():
 
     # Register persistent views
     bot.add_view(FactionButtons())
-    bot.add_view(VerifyButton())
     bot.add_view(TicketLandingView())
     bot.add_view(CloseTicketView())
     bot.add_view(GiveawayJoinView())
