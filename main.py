@@ -45,10 +45,9 @@ GiveawayJoinView = giveaways.GiveawayJoinView
 
 # 5. Load environment variables securely
 load_dotenv(os.path.join(PROJECT_DIR, '.env'))
-TOKEN = os.getenv('DISCORD_TOKEN')
 
 if not TOKEN:
-    raise ValueError("DISCORD_TOKEN not found! Check your .env file or Render Environment Variables.")
+    raise ValueError("Discord token not found!")
 
 intents = discord.Intents.default()
 intents.message_content = True
