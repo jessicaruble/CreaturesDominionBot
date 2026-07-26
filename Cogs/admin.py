@@ -144,7 +144,7 @@ class Admin(commands.Cog):
                 ),
                 color=0x8B0000
             )
-            await channel.send(embed=embed,view=VerifyButton()
+            await channel.send(embed=embed)
            )
 
         # Rules Panel
