@@ -60,7 +60,6 @@ intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command('help')
 
-@bot.event
 async def setup_hook():
     """Triggered automatically right before the bot logs into Discord."""
     # Register the persistent views
