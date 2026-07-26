@@ -192,7 +192,11 @@ async def main():
     print("🚀 SYSTEM LIVE: Bot is completely online!")
     print("CONNECTING TO DISCORD NOW...")
     
+    try:
     await bot.start(TOKEN)
+except Exception as e:
+    print("❌ DISCORD CONNECTION ERROR:")
+    print(e)
 
 if __name__ == '__main__':
     if PROJECT_DIR != os.getcwd():
