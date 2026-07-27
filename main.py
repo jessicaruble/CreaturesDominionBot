@@ -197,6 +197,8 @@ async def main():
 
     try:
         print("➡️ Calling bot.start()...")
+        print("Calling setup_hook...")
+await setup_hook()
         await bot.start(TOKEN)
         print("✅ bot.start() returned")
     except Exception as e:
