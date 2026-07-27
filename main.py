@@ -196,10 +196,12 @@ async def main():
     print("CONNECTING TO DISCORD NOW...")
 
     try:
-        print("➡️ Calling bot.start()...")
         print("Calling setup_hook...")
-await setup_hook()
+        await setup_hook()
+
+        print("➡️ Calling bot.start()...")
         await bot.start(TOKEN)
+
         print("✅ bot.start() returned")
     except Exception as e:
         print("❌ DISCORD CONNECTION ERROR:")
